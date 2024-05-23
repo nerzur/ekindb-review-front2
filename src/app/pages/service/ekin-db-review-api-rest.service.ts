@@ -65,6 +65,10 @@ export class EkinDbReviewApiRestService {
         return this.http.get(this.apiRestDirection + "/pesajesLinea/countEntriesByDates");
     }
 
+    countEntriesVaciadoOrLLenadoByDates(isVaciado : boolean): Observable<any> {
+        return this.http.get(this.apiRestDirection + "/pesajesLinea/countEntriesVaciadoOrLLenadoByDates/"+isVaciado);
+    }
+
     convertDate(date: Date, format: string): string {
         return <string>this.datePipe.transform(date, format)
     }
