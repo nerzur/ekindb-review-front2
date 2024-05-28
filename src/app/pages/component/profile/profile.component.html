@@ -1,0 +1,106 @@
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="border-round m-2 text-center p-2">
+                <div style="display: flex; justify-content: center">
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                         [ngStyle]="{width: '6rem', height: '6rem'}">
+                        <i style="font-size: 40px" class="pi pi-user text-blue-800"></i>
+                    </div>
+                </div>
+                <hr/>
+                <span class="block text-500 font-medium mb-3">{{ username }}</span>
+                <span class="block text-500 font-medium mb-3">{{ fullName }}</span>
+                <span class="block text-500 font-medium mb-3">{{ email }}</span>
+                <span
+                    class="block text-500 text-{{ emailVerified ? 'green' : 'red' }}-500 font-medium mb-3">Email {{ emailVerified ? "verified" : "without verify" }}</span>
+                <div *ngFor="let rol of roles">
+                    <p-tag severity="info" value="{{rol}}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6 xl:col-9">
+        <p-toast />
+        <div class="card">
+            <h5>Editar perfil</h5>
+                <div class="p-fluid">
+                    <div class="field">
+                        <label htmlFor="username">Username</label>
+                        <input [required]="true" [(ngModel)]="userForm.username" [disabled]="true" pInputText id="username" type="text"/>
+                    </div>
+                    <div class="field">
+                        <label htmlFor="firstname">First Name</label>
+                        <input [(ngModel)]="userForm.firstName" pInputText id="firstname" type="text"/>
+                    </div>
+                    <div class="field">
+                        <label htmlFor="lastname">Last Name</label>
+                        <input [(ngModel)]="userForm.lastName" pInputText id="lastname" type="text"/>
+                    </div>
+                    <div class="field">
+                        <label htmlFor="email">Email</label>
+                        <input [(ngModel)]="userForm.email" pInputText id="email" type="email"/>
+                    </div>
+                    <div class="field">
+                        <label htmlFor="password">Password</label>
+                        <p-password id="password" [(ngModel)]="passwordField[0]"
+                                    [toggleMask]="true"
+                                    class="{{writeColorsForInvalidPassword()}}">
+                            <ng-template pTemplate="header">
+                                <h6>Pick a password</h6>
+                            </ng-template>
+                            <ng-template pTemplate="footer">
+                                <p-divider />
+                                <p class="mt-2">Suggestions</p>
+                                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                    <li>At least one lowercase</li>
+                                    <li>At least one uppercase</li>
+                                    <li>At least one numeric</li>
+                                    <li>Minimum 8 characters</li>
+                                </ul>
+                            </ng-template>
+                        </p-password>
+
+                    </div>
+                    <div class="field">
+                        <label htmlFor="repassword">Retype Password</label>
+                        <p-password id="repassword" [(ngModel)]="passwordField[1]"
+                                    [toggleMask]="true"
+                                    class="{{writeColorsForInvalidPassword()}}">
+                            <ng-template pTemplate="header">
+                                <h6>Pick a password</h6>
+                            </ng-template>
+                            <ng-template pTemplate="footer">
+                                <p-divider />
+                                <p class="mt-2">Suggestions</p>
+                                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                    <li>At least one lowercase</li>
+                                    <li>At least one uppercase</li>
+                                    <li>At least one numeric</li>
+                                    <li>Minimum 8 characters</li>
+                                </ul>
+                            </ng-template>
+                        </p-password>
+                    </div>
+<!--                    <div class="field">-->
+<!--                        <label htmlFor="selectRole">Role</label>-->
+<!--                        <p-multiSelect [options]="rolesList" id="selectRole" [(ngModel)]="rolesSelected"-->
+<!--                                       placeholder="Select the Roles" optionLabel="" class="multiselect-custom"-->
+<!--                                       display="chip">-->
+<!--                            <ng-template let-availRole pTemplate="item">-->
+<!--                                <div class="flex align-items-center">-->
+<!--                                    <span class="ml-2">{{ availRole }}</span>-->
+<!--                                </div>-->
+<!--                            </ng-template>-->
+<!--                        </p-multiSelect>-->
+<!--                    </div>-->
+                </div>
+                <div class="flex align-items-end justify-content-end">
+                    <button [disabled]="!validatePasswords()" (click)="updateProfile()" pButton pRipple type="button" icon="pi pi-save" label="Save"></button>
+                </div>
+        </div>
+    </div>
+
+
+</div>
