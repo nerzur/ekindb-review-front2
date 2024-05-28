@@ -44,7 +44,6 @@ export class ProfileComponent implements OnInit {
 
     loadUserProfile() {
         this.userService.getAuthUserInformation().subscribe((data:  UserDTO)=> {
-            console.log(data);
             this.username = this.userForm.username = data.username;
             this.email = this.userForm.email = data.email
             this.fullName = data.firstName + " " + data.lastName;
