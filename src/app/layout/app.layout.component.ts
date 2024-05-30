@@ -5,6 +5,8 @@ import { LayoutService } from "./service/app.layout.service";
 import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppTopBarComponent } from './app.topbar.component';
 import {KeycloakService} from "keycloak-angular";
+import {Message} from "primeng/api";
+import {ConfigService} from "../pages/service/config.service";
 
 @Component({
     selector: 'app-layout',
@@ -20,11 +22,16 @@ export class AppLayoutComponent implements OnDestroy, OnInit {
 
     isLoggedIn: boolean = false;
 
+    lastEkinsaSoftwareVersion = "";
+    lastEkinsaSoftwareInstallDate = "";
+
+    messages: Message[] = [];
+
     @ViewChild(AppSidebarComponent) appSidebar!: AppSidebarComponent;
 
     @ViewChild(AppTopBarComponent) appTopbar!: AppTopBarComponent;
 
-    constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router,  private readonly keycloak: KeycloakService) {
+    constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router,  private readonly keycloak: KeycloakService, private configService : ConfigService) {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {
@@ -114,6 +121,18 @@ export class AppLayoutComponent implements OnDestroy, OnInit {
 
     ngOnInit(): void {
         this.isLoggedIn = this.keycloak.isLoggedIn();
+        this.configService.getConfig().subscribe((data: any) => {
+            this.lastEkinsaSoftwareInstallDate = data.lastEkinsaSoftwareInstallDate;
+            this.lastEkinsaSoftwareVersion = data.lastEkinsaSoftwareVersion;
+            this.messages = [{
+                severity: 'warn', summary: 'Warning',
+                detail: 'This page is under develop. Last Ekinsa\'s software version '
+                    + this.lastEkinsaSoftwareVersion
+                    + ' of '
+                    + this.lastEkinsaSoftwareInstallDate
+            }
+            ];
+        })
     }
 
     ngOnDestroy() {

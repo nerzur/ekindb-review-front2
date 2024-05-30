@@ -23,6 +23,7 @@ import {DatePipe} from "@angular/common";
 import {MessageService} from "primeng/api";
 import {EkinDbReviewApiRestService} from "../pages/service/ekin-db-review-api-rest.service";
 import {BlockUIModule} from "primeng/blockui";
+import {MessagesModule} from "primeng/messages";
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import {BlockUIModule} from "primeng/blockui";
         RouterModule,
         AppConfigModule,
         TooltipModule,
-        BlockUIModule
+        BlockUIModule,
+        MessagesModule
     ],
     exports: [
         AppLayoutComponent

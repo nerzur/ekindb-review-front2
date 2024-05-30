@@ -7,6 +7,7 @@
       "forceConsistentCasingInFileNames": true,
       "strict": false,
       "noImplicitOverride": true,
+      "resolveJsonModule": true,
       "noPropertyAccessFromIndexSignature": true,
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
@@ -32,4 +33,3 @@
       "strictTemplates": false
     }
   }
-  

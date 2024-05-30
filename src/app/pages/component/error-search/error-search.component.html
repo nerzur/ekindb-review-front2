@@ -1,0 +1,132 @@
+<div class="grid">
+    <p-toast></p-toast>
+
+    <div class="col lg:col-12 xl:col-12">
+        <div class="card">
+            <h5>Errores detectados en EkinsaDB (entradas/salidas no coincidentes)</h5>
+
+            <div class="flex align-items-end justify-content-end">
+                <p-calendar id="datesRange" name="datesRange" selectionMode="range"
+                            placeholder="Seleccione un rango de fechas"
+                            dateFormat="yymmdd"
+                            [readonlyInput]="true"
+                            [showButtonBar]="true"
+                            [numberOfMonths]="2"
+                            [minDate]="datesMinMax[0]"
+                            [maxDate]="datesMinMax[1]"
+                            [(ngModel)]="dateRange">
+                </p-calendar>
+                <button (click)="searchDb()" style="margin-left: 1em" pButton pRipple icon="pi pi-search" type="button"></button>
+            </div>
+
+            <div class="grid formgrid" style="margin-top: 1em">
+                <div class="col-12 lg:col-12 xl:col-12">
+                    <div class="p-fluid">
+                    <p-table
+                        #dt
+                        [value]="entriesList"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        [paginator]="true"
+                        [rows]="10"
+                        [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                        [loading]="loading"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        class="table align-items-center mb-0">
+
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <button type="button" class="p-button-outlined p-button-success" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" pTooltip="Print XLS" tooltipPosition="bottom"></button>
+                                <button type="button" class="p-button-outlined p-button-danger" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" pTooltip="Print PDF" tooltipPosition="bottom" style="margin-left: 1em"></button>
+                            </div>
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tag</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lote</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Peso</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Zona</th>
+                                <!--          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Errors</th>-->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-entries>
+                            <tr>
+                                <td colspan="6" class="align-middle text-center text-sm bg-gray-100">
+                                    <strong class="text-bold text-center text-md-center">{{entries.tag}} <i style="margin-left: 5px; margin-right: 10px" pBadge severity="danger" value="{{missingZone(entries.entriesList)}}"></i> - {{entries.countEntries}}
+                                        entradas</strong>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let entry of entries.entriesList">
+                                <td class="align-middle text-center text-sm">
+                                    <a style="text-decoration: underline; cursor: pointer;" (click)="showDialog(entries.tag)"><p
+                                        class="text-xs font-weight-bold mb-0">{{entries.tag}}</p></a>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs text-secondary mb-0">{{ entry.date | date:'dd/MM/yyyy hh:mm:ss a' }}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs text-secondary mb-0">{{entry.lote}} </p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs text-secondary mb-0">{{entry.weigth}}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs text-secondary mb-0">{{entry.zone}}</p>
+                                </td>
+                                <!--          <td class="align-middle text-center text-sm">-->
+                                <!--            <span class="badge badge-sm bg-gradient-danger">Falta entrada de zona {{missingZone(entry.zone)}}</span>-->
+                                <!--          </td>-->
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="{{tagDialogHeader}}" [modal]="true" [(visible)]="dialogVisible" [breakpoints]="{ '960px': '75vw' }"
+          [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <p-table
+        [value]="dialogEntries"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+        [loading]="loadingDialog"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        class="table align-items-center mb-0">
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tag</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lote</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Peso</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Zona</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-entry>
+            <tr>
+                <td class="align-middle text-center text-sm">
+                    <p class="text-xs font-weight-bold mb-0">{{entry.tag}}</p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                    <p class="text-xs text-secondary mb-0">{{ entry.fecha | date:'dd/MM/yyyy hh:mm:ss a' }}</p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                    <p class="text-xs text-secondary mb-0">{{entry.numeroLote}} </p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                    <p class="text-xs text-secondary mb-0">{{entry.peso}}</p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                    <p class="text-xs text-secondary mb-0">{{entry.idZona}}</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
