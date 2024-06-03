@@ -1,0 +1,62 @@
+<div class="grid">
+    <div class="col lg:col-12 xml:col-12">
+        <div class="card">
+            <h5>Buscar registros de Tag</h5>
+
+            <div class="flex align-items-end justify-content-end">
+                        <input id="inputText" [minlength]="16" #tag [maxlength]="16" placeholder="Identificador del tag" pInputText type="text" required="true" class="form-control" name="tagForm" [(ngModel)]="tagForm"/>
+                    <button pButton (click)="searchDb()" style="margin-left: 0.5em" pRipple icon="pi pi-search"></button>
+            </div>
+<!--            <p style="color: red;" *ngIf="!tag.checkValidity()"> El input está mal </p>-->
+
+            <p-divider></p-divider>
+
+            <br/>
+
+            <div class="table-responsive p-0">
+                <p-table
+                    [value]="registryList"
+                    [tableStyle]="{ 'min-width': '50rem' }"
+                    [paginator]="true"
+                    [rows]="10"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                    [loading]="loading"
+                    [rowsPerPageOptions]="[10, 25, 50]"
+                    class="table align-items-center mb-0">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tag</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lote</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Peso</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Zona</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-entry>
+                        <tr>
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs font-weight-bold mb-0">{{entry.tag}}</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs text-secondary mb-0">{{ entry.fecha | date:'dd/MM/yyyy hh:mm:ss a' }}</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs text-secondary mb-0">{{entry.numeroLote}} </p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs text-secondary mb-0">{{entry.peso}}</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs text-secondary mb-0">{{entry.idZona}}</p>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <br/>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
