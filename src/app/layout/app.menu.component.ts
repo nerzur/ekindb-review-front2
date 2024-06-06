@@ -19,7 +19,8 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
                     { label: 'Find errors DB', icon: 'pi pi-fw pi-search', routerLink: ['/errorSearch'] },
-                    { label: 'Search Tag', icon: 'pi pi-fw pi-bitcoin', routerLink: ['/searchTag'] }
+                    { label: 'Search Tag', icon: 'pi pi-fw pi-th-large', routerLink: ['/searchTag'] },
+                    { label: 'Change Tags / Lote', icon: 'pi pi-fw pi-clone', routerLink: ['/changeLote'] }
                 ]
             },
             {

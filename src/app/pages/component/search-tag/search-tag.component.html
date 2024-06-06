@@ -4,10 +4,11 @@
             <h5>Buscar registros de Tag</h5>
 
             <div class="flex align-items-end justify-content-end">
-                        <input id="inputText" [minlength]="16" #tag [maxlength]="16" placeholder="Identificador del tag" pInputText type="text" required="true" class="form-control" name="tagForm" [(ngModel)]="tagForm"/>
-                    <button pButton (click)="searchDb()" style="margin-left: 0.5em" pRipple icon="pi pi-search"></button>
+                <input pInputText id="tagNumber" tooltipPosition="bottom" pAutoFocus [autofocus]="true"
+                       pTooltip='El valor introducido debe contener 16 caracteres, debe comenzar por E00 y contener solo letras mayúsculas y números.'
+                       [pKeyFilter]="tagNumber" [pValidateOnly]="true" placeholder="Identificador del tag" type="text" class="form-control" name="tagForm" [(ngModel)]="tagForm"/>
+                <button pButton (click)="searchDb()" [disabled]="!validateRegex()" style="margin-left: 0.5em" pRipple icon="pi pi-search"></button>
             </div>
-<!--            <p style="color: red;" *ngIf="!tag.checkValidity()"> El input está mal </p>-->
 
             <p-divider></p-divider>
 

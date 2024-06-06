@@ -12,6 +12,7 @@ export class SearchTagComponent {
     registryList: EK_PesajeLinea[] = [];
     tagForm = "";
     loading = false;
+    tagNumber: RegExp = /^E00[A-Z0-9]{13}$/;
 
     constructor(private service: EkinDbReviewApiRestService) {
     }
@@ -26,4 +27,7 @@ export class SearchTagComponent {
         })
     }
 
+    validateRegex(){
+        return this.tagNumber.test(this.tagForm);
+    }
 }

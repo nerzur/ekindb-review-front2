@@ -8,6 +8,10 @@ import {DividerModule} from "primeng/divider";
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {RippleModule} from "primeng/ripple";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {MessageModule} from "primeng/message";
+import {TooltipModule} from "primeng/tooltip";
+import {AutoFocusModule} from "primeng/autofocus";
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import {RippleModule} from "primeng/ripple";
         DividerModule,
         ButtonModule,
         InputTextModule,
-        RippleModule
+        RippleModule,
+        KeyFilterModule,
+        MessageModule,
+        TooltipModule,
+        AutoFocusModule
     ]
 })
 export class SearchTagModule { }

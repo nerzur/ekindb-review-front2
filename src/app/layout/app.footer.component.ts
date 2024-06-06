@@ -11,6 +11,7 @@ export class AppFooterComponent implements OnInit{
 
     public version: string;
     public year: number;
+    public license : string;
 
     constructor(public layoutService: LayoutService) {
 
@@ -18,7 +19,9 @@ export class AppFooterComponent implements OnInit{
 
     ngOnInit(): void {
         const APP_VERSION = require('../../../package.json').version;
+        const LICENSE = require('../../../package.json').license;
         this.year = new Date().getFullYear();
         APP_VERSION != null ? this.version = APP_VERSION : "0.1.0-Beta";
+        LICENSE != null ? this.license = LICENSE : "MIT";
     }
 }
