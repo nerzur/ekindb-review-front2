@@ -17,6 +17,8 @@ export class ProfileComponent implements OnInit {
     public fullName: string;
     public emailVerified: boolean = true;
     public roles: string[] = [];
+    public severity = ["success", "info", "warning", "danger", "secondary", "contrast"];
+    public randomSeverity:string = "";
     // public rolesSelected: string[] = [];
     // public rolesList:string[] = ["Administrator", "User"];
 
@@ -40,6 +42,7 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit() {
         this.loadUserProfile();
+        this.randomSeverity = this.severity[Math.floor(Math.random() * this.severity.length)]
     }
 
     loadUserProfile() {

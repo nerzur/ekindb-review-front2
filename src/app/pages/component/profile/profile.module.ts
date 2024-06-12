@@ -13,6 +13,7 @@ import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {PasswordModule} from "primeng/password";
 import {DividerModule} from "primeng/divider";
+import {AvatarModule} from "primeng/avatar";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {DividerModule} from "primeng/divider";
         RippleModule,
         ToastModule,
         PasswordModule,
-        DividerModule
+        DividerModule,
+        AvatarModule
     ],
     providers:[
         UserService,

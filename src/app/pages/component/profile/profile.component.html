@@ -3,10 +3,11 @@
         <div class="card mb-0">
             <div class="border-round m-2 text-center p-2">
                 <div style="display: flex; justify-content: center">
-                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
-                         [ngStyle]="{width: '6rem', height: '6rem'}">
-                        <i style="font-size: 40px" class="pi pi-user text-blue-800"></i>
-                    </div>
+                        <p-avatar
+                            size="xlarge"
+                            icon="pi pi-user"
+                            [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                            shape="circle" />
                 </div>
                 <hr/>
                 <span class="block text-500 font-medium mb-3">{{ username }}</span>
@@ -15,7 +16,7 @@
                 <span
                     class="block text-500 text-{{ emailVerified ? 'green' : 'red' }}-500 font-medium mb-3">Email {{ emailVerified ? "verified" : "without verify" }}</span>
                 <div *ngFor="let rol of roles">
-                    <p-tag severity="info" value="{{rol}}"/>
+                    <p-tag severity="{{randomSeverity}}" value="{{rol}}"/>
                 </div>
             </div>
         </div>
