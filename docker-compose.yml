@@ -1,0 +1,28 @@
+version: '1.0.1'
+name: enkindb-review
+services:
+#  ekinsadb-review:
+#    container_name: ekinsadb-review
+#    hostname: ekinsadb-review
+#    build:
+#      context: ekinsadb-review
+#      dockerfile: Dockerfile
+#    image: ekinsadb-review:latest
+#    ports:
+#      - "8091:8091"
+#    networks:
+#      - public-network
+
+  ekinsadb-review-front:
+    container_name: ekindb-review-front
+    hostname: ekindb-review-front
+    build:
+      dockerfile: Dockerfile
+    image: ekindb-review-front:latest
+    ports:
+      - "4200:80"
+    networks:
+      - public-network
+
+networks:
+  public-network:

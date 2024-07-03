@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {DatePipe} from "@angular/common";
 import {CountEntriesByDates} from "../api/countEntriesByDates";
 import {UpdateLote} from "../api/UpdateLote";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class EkinDbReviewApiRestService {
 
     dateFormat: string = 'yyyy-MM-dd';
     /**Without docker**/
-    apiRestDirection: string = "http://localhost:8090/api/ekinsadb-review-service/v1";
+    apiRestDirection: string = environment.apiServerURL + "/api/ekinsadb-review-service/v1";
 
     /**With docker**/
     // apiRestDirection: string = "http://10.10.17.0:8091";

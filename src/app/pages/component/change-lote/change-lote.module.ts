@@ -11,6 +11,9 @@ import {ButtonModule} from "primeng/button";
 import {CalendarModule} from "primeng/calendar";
 import {RippleModule} from "primeng/ripple";
 import {ToastModule} from "primeng/toast";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ConfirmationService} from "primeng/api";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -28,6 +31,11 @@ import {ToastModule} from "primeng/toast";
         CalendarModule,
         RippleModule,
         ToastModule,
+        ConfirmDialogModule,
+        DialogModule,
+    ],
+    providers: [
+        ConfirmationService
     ]
 })
 export class ChangeLoteModule { }

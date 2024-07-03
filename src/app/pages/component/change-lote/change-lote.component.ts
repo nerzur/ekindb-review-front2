@@ -2,8 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ConfigService} from "../../service/config.service";
 import {EkinDbReviewApiRestService} from "../../service/ekin-db-review-api-rest.service";
 import {Searchable} from "../../api/Searchable";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {UpdateLote} from "../../api/UpdateLote";
+
+declare const require: (path: string) => any;
 
 @Component({
     selector: 'change-lote',
@@ -24,12 +26,18 @@ export class ChangeLoteComponent implements OnInit {
     public availableTags: Searchable[] = [];
     public selectedTags: Searchable[] = [];
 
+    public lang = require('../../../../assets/lang/es.json');
+
+    visible: boolean = false;
+
     constructor(private configService : ConfigService,
                 private service : EkinDbReviewApiRestService,
+                private confirmationService: ConfirmationService,
                 private messageService : MessageService) {
     }
 
     ngOnInit(): void {
+        this.visible = true;
         this.configService.getConfig().subscribe((data: any) => {
             this.service.findLotes(new Date(data.lastEkinsaSoftwareInstallDate)).subscribe(data => {
                 this.loteList = [];
@@ -81,14 +89,37 @@ export class ChangeLoteComponent implements OnInit {
             tags.push(e.name);
         });
         let updateLote = new UpdateLote(tags, this.prevLoteSelected[0].name, this.newLoteSelected[0].name, !this.isLlenado)
-        this.service.updateLote(updateLote, false).subscribe(data=>{
-            this.prevLoteSelected = [];
-            this.newLoteSelected = [];
-            this.selectedTags = [];
-            this.availableTags = [];
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'The operation has be execute successfully.' });
-        }, error => {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'One error has been occurred.' });
+
+        this.service.updateLote(updateLote, true).subscribe(data=>{
+            this.confirmationService.confirm({
+                message: this.lang.modifyDialog1 + data.length + this.lang.modifyDialog2,
+                header: this.lang.alertHeader,
+                icon: 'pi pi-exclamation-triangle',
+                acceptIcon:"none",
+                acceptLabel: this.lang.yes,
+                rejectLabel: this.lang.no,
+                rejectIcon:"none",
+                rejectButtonStyleClass:"p-button-text",
+
+                accept: () => {
+                    this.service.updateLote(updateLote, false).subscribe(data=>{
+                        this.prevLoteSelected = [];
+                        this.newLoteSelected = [];
+                        this.selectedTags = [];
+                        this.availableTags = [];
+                        this.messageService.add({ severity: 'success', summary: this.lang.successHeader, detail: this.lang.successMessage });
+                    }, error => {
+                        this.messageService.add({ severity: 'error', summary: this.lang.errorHeader, detail: this.lang.errorMessage });
+                    });
+                },
+                reject: () => {
+                    this.messageService.add({ severity: 'error', summary: this.lang.cancelledHeader, detail: this.lang.cancelledMessage, life: 3000 });
+                }
+            });
         });
+
+
+
+
     }
 }

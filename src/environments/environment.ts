@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+    apiServerURL: "http://localhost:8090",
     keycloak: {
         authority: 'http://localhost:8080',
         redirectUri: 'http://localhost:4200',
@@ -12,7 +13,6 @@ export const environment = {
         clientId: 'ekindb-review-api-rest',
     },
     idleConfig: { idle: 10, timeout: 60, ping: 10 },
-
 };
 
 /*

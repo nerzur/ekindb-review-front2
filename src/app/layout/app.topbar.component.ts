@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {LayoutService} from "./service/app.layout.service";
 import {KeycloakProfile} from "keycloak-js";
-import {KeycloakService} from "keycloak-angular";
+import {KeycloakEventType, KeycloakService} from "keycloak-angular";
 
 @Component({
     selector: 'app-topbar',
@@ -26,6 +26,17 @@ export class AppTopBarComponent implements OnInit{
     }
 
     async ngOnInit() {
+        this.keycloak.keycloakEvents$.subscribe({
+            next(event) {
+                if (event.type == KeycloakEventType.OnTokenExpired) {
+                    console.error("UPDATING TOKEN");
+                    this.keycloak.updateToken(20).pipe(e => {
+                        console.log("IS TOKEN REFRESHED "+e);
+                    });
+                }
+            }
+        });
+
         this.isLoggedIn = this.keycloak.isLoggedIn();
 
         if(this.isLoggedIn){
@@ -34,10 +45,13 @@ export class AppTopBarComponent implements OnInit{
     }
 
     public login(){
-        this.keycloak.login();
+        this.keycloak.login({
+            redirectUri: window.location.origin
+        }).then(e=> false);
     }
 
     public logout(){
-        this.keycloak.logout(window.location.origin);
+        this.keycloak.logout(window.location.origin)
+            .then(e=>false);
     }
 }
