@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+    apiServerURL: "http://localhost:8090",
+    keycloak: {
+        authority: 'http://localhost:8080',
+        redirectUri: 'http://localhost:4200',
+        postLogoutRedirectUri: 'http://localhost:4200/logout',
+        realm: 'dev-env',
+        clientId: 'ekindb-review-api-rest',
+    },
+    idleConfig: { idle: 10, timeout: 60, ping: 10 },
 };
 
 /*

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
@@ -22,9 +22,10 @@ import {ConfigService} from "../pages/service/config.service";
 import {DatePipe} from "@angular/common";
 import {MessageService} from "primeng/api";
 import {EkinDbReviewApiRestService} from "../pages/service/ekin-db-review-api-rest.service";
+import {BlockUIModule} from "primeng/blockui";
+import {MessagesModule} from "primeng/messages";
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppMenuitemComponent,
         AppTopBarComponent,
         AppFooterComponent,
@@ -32,10 +33,10 @@ import {EkinDbReviewApiRestService} from "../pages/service/ekin-db-review-api-re
         AppSidebarComponent,
         AppLayoutComponent,
     ],
-    imports: [
-        BrowserModule,
+    exports: [
+        AppLayoutComponent
+    ], imports: [BrowserModule,
         FormsModule,
-        HttpClientModule,
         BrowserAnimationsModule,
         InputTextModule,
         SidebarModule,
@@ -45,16 +46,13 @@ import {EkinDbReviewApiRestService} from "../pages/service/ekin-db-review-api-re
         RippleModule,
         RouterModule,
         AppConfigModule,
-        TooltipModule
-    ],
-    exports: [
-        AppLayoutComponent
-    ],
-    providers: [
+        TooltipModule,
+        BlockUIModule,
+        MessagesModule], providers: [
         EkinDbReviewApiRestService,
         ConfigService,
         DatePipe,
-        MessageService
-    ]
-})
+        MessageService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppLayoutModule { }
