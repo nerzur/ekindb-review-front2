@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { SidebarModule } from 'primeng/sidebar';
@@ -25,8 +25,7 @@ import {EkinDbReviewApiRestService} from "../pages/service/ekin-db-review-api-re
 import {BlockUIModule} from "primeng/blockui";
 import {MessagesModule} from "primeng/messages";
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppMenuitemComponent,
         AppTopBarComponent,
         AppFooterComponent,
@@ -34,10 +33,10 @@ import {MessagesModule} from "primeng/messages";
         AppSidebarComponent,
         AppLayoutComponent,
     ],
-    imports: [
-        BrowserModule,
+    exports: [
+        AppLayoutComponent
+    ], imports: [BrowserModule,
         FormsModule,
-        HttpClientModule,
         BrowserAnimationsModule,
         InputTextModule,
         SidebarModule,
@@ -49,16 +48,11 @@ import {MessagesModule} from "primeng/messages";
         AppConfigModule,
         TooltipModule,
         BlockUIModule,
-        MessagesModule
-    ],
-    exports: [
-        AppLayoutComponent
-    ],
-    providers: [
+        MessagesModule], providers: [
         EkinDbReviewApiRestService,
         ConfigService,
         DatePipe,
-        MessageService
-    ]
-})
+        MessageService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppLayoutModule { }

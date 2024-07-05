@@ -13,7 +13,7 @@ import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {environment} from "../environments/environment";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import {AuthInterceptor} from "./pages/service/authInterceptor";
 
 function initializeKeycloak(keycloak: KeycloakService) {
