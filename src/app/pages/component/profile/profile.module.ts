@@ -14,6 +14,7 @@ import {MessageService} from "primeng/api";
 import {PasswordModule} from "primeng/password";
 import {DividerModule} from "primeng/divider";
 import {AvatarModule} from "primeng/avatar";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {AvatarModule} from "primeng/avatar";
         ToastModule,
         PasswordModule,
         DividerModule,
-        AvatarModule
+        AvatarModule,
+        TranslateModule
     ],
     providers:[
         UserService,

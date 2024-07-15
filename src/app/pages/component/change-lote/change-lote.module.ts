@@ -14,6 +14,7 @@ import {ToastModule} from "primeng/toast";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {ConfirmationService} from "primeng/api";
 import {DialogModule} from "primeng/dialog";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {DialogModule} from "primeng/dialog";
         ToastModule,
         ConfirmDialogModule,
         DialogModule,
+        TranslateModule,
     ],
     providers: [
         ConfirmationService

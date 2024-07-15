@@ -12,6 +12,7 @@ import {KeyFilterModule} from "primeng/keyfilter";
 import {MessageModule} from "primeng/message";
 import {TooltipModule} from "primeng/tooltip";
 import {AutoFocusModule} from "primeng/autofocus";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {AutoFocusModule} from "primeng/autofocus";
         KeyFilterModule,
         MessageModule,
         TooltipModule,
-        AutoFocusModule
+        AutoFocusModule,
+        TranslateModule
     ]
 })
 export class SearchTagModule { }

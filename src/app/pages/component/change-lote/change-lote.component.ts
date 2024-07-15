@@ -4,6 +4,7 @@ import {EkinDbReviewApiRestService} from "../../service/ekin-db-review-api-rest.
 import {Searchable} from "../../api/Searchable";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {UpdateLote} from "../../api/UpdateLote";
+import {TranslateService} from "@ngx-translate/core";
 
 declare const require: (path: string) => any;
 
@@ -26,11 +27,10 @@ export class ChangeLoteComponent implements OnInit {
     public availableTags: Searchable[] = [];
     public selectedTags: Searchable[] = [];
 
-    public lang = require('../../../../assets/lang/es.json');
-
     visible: boolean = false;
 
     constructor(private configService : ConfigService,
+                private translateService : TranslateService,
                 private service : EkinDbReviewApiRestService,
                 private confirmationService: ConfirmationService,
                 private messageService : MessageService) {
@@ -39,7 +39,7 @@ export class ChangeLoteComponent implements OnInit {
     ngOnInit(): void {
         this.visible = true;
         this.configService.getConfig().subscribe((data: any) => {
-            this.service.findLotes(new Date(data.lastEkinsaSoftwareInstallDate)).subscribe(data => {
+            this.service.findLotes(new Date(data.lastSoftwareUpdateDate)).subscribe(data => {
                 this.loteList = [];
                 data.forEach((e: string) => {
                     this.loteList.push(new Searchable(e));
@@ -91,31 +91,33 @@ export class ChangeLoteComponent implements OnInit {
         let updateLote = new UpdateLote(tags, this.prevLoteSelected[0].name, this.newLoteSelected[0].name, !this.isLlenado)
 
         this.service.updateLote(updateLote, true).subscribe(data=>{
-            this.confirmationService.confirm({
-                message: this.lang.modifyDialog1 + data.length + this.lang.modifyDialog2,
-                header: this.lang.alertHeader,
-                icon: 'pi pi-exclamation-triangle',
-                acceptIcon:"none",
-                acceptLabel: this.lang.yes,
-                rejectLabel: this.lang.no,
-                rejectIcon:"none",
-                rejectButtonStyleClass:"p-button-text",
+            this.translateService.get("lang").subscribe(langData =>{
+                this.confirmationService.confirm({
+                    message: langData.modifyDialog1 + data.length + langData.modifyDialog2,
+                    header: langData.alertHeader,
+                    icon: 'pi pi-exclamation-triangle',
+                    acceptIcon:"none",
+                    acceptLabel: langData.yes,
+                    rejectLabel: langData.no,
+                    rejectIcon:"none",
+                    rejectButtonStyleClass:"p-button-text",
 
-                accept: () => {
-                    this.service.updateLote(updateLote, false).subscribe(data=>{
-                        this.prevLoteSelected = [];
-                        this.newLoteSelected = [];
-                        this.selectedTags = [];
-                        this.availableTags = [];
-                        this.messageService.add({ severity: 'success', summary: this.lang.successHeader, detail: this.lang.successMessage });
-                    }, error => {
-                        this.messageService.add({ severity: 'error', summary: this.lang.errorHeader, detail: this.lang.errorMessage });
-                    });
-                },
-                reject: () => {
-                    this.messageService.add({ severity: 'error', summary: this.lang.cancelledHeader, detail: this.lang.cancelledMessage, life: 3000 });
-                }
-            });
+                    accept: () => {
+                        this.service.updateLote(updateLote, false).subscribe(any=>{
+                            this.prevLoteSelected = [];
+                            this.newLoteSelected = [];
+                            this.selectedTags = [];
+                            this.availableTags = [];
+                            this.messageService.add({ severity: 'success', summary: langData.successHeader, detail: langData.successMessage });
+                        }, error => {
+                            this.messageService.add({ severity: 'error', summary: langData.errorHeader, detail: langData.errorMessage });
+                        });
+                    },
+                    reject: () => {
+                        this.messageService.add({ severity: 'error', summary: langData.cancelledHeader, detail: langData.cancelledMessage, life: 3000 });
+                    }
+                });
+            })
         });
 
 

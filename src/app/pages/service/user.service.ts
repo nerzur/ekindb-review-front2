@@ -10,6 +10,7 @@ import {environment} from "../../../environments/environment";
 export class UserService {
 
     apiRestDirection: string = environment.apiServerURL + "/api/user-service/v1/user";
+    public defaultLang : string;
 
     constructor(private http: HttpClient) {
     }
@@ -20,5 +21,13 @@ export class UserService {
 
     changeUserInformation(newUserInformation: UserDTO) : Observable<any>{
         return this.http.post(this.apiRestDirection + "/changeUserInformation", newUserInformation);
+    }
+
+    getUserLang(): Observable<any>{
+        return this.http.get(this.apiRestDirection + "/getUserLang");
+    }
+
+    setUserLang(newLang:string) : Observable<any>{
+        return this.http.post(this.apiRestDirection + "/setUserLang/"+newLang,null);
     }
 }

@@ -7,6 +7,7 @@ import {DatePipe} from "@angular/common";
 import {MessageService, PrimeNGConfig} from "primeng/api";
 import * as FileSaver from 'file-saver';
 import {Entry} from "../../api/Entry";
+import {TranslateService} from "@ngx-translate/core";
 
 
 interface ExportColumn {
@@ -44,6 +45,7 @@ export class ErrorSearchComponent implements OnInit{
 
     constructor(private service: EkinDbReviewApiRestService,
                 private configService: ConfigService,
+                private translateService: TranslateService,
                 private datePipe: DatePipe,
                 private primeConfig: PrimeNGConfig,
                 private messageService: MessageService) {
@@ -70,21 +72,21 @@ export class ErrorSearchComponent implements OnInit{
     ngOnInit(): void {
         let minDate = new Date();
         this.configService.getConfig().subscribe((data: any) => {
-            minDate = new Date(data.lastEkinsaSoftwareInstallDate);
+            minDate = new Date(data.officialDbInitDate);
             minDate.setDate(minDate.getDate() + 1);
             this.datesMinMax.push(minDate, new Date());
-            this.dateRange = [new Date('2023-08-24'), new Date()];
+            this.dateRange = [new Date(data.lastSoftwareUpdateDate), new Date()];
             this.searchDb();
         }, error => {
             console.log(error);
         });
 
-        this.primeConfig.setTranslation({
-            today: "Hoy",
-            clear: "Limpiar",
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
-        });
+        // this.primeConfig.setTranslation({
+        //     today: "Hoy",
+        //     clear: "Limpiar",
+        //     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        //     dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab']
+        // });
     }
 
     searchDb() {
@@ -93,18 +95,20 @@ export class ErrorSearchComponent implements OnInit{
             return;
         }
         this.loading = true;
-        this.service.getErrorsByDates(this.dateRange[0], this.dateRange[1]).subscribe(data => {
-            this.entriesList = data;
-            this.loading = false;
-            this.messageService.add({
-                severity: this.entriesList.length == 0 ? 'success' : 'warn',
-                summary: this.entriesList.length == 0 ? 'Success' : 'Warning',
-                detail: this.entriesList.length == 0 ? 'No se han detectado errores en los Tags' : 'Se han detectado ' + this.entriesList.length + ' tags con errores.'
+        this.translateService.get("lang").subscribe(lang=>{
+            this.service.getErrorsByDates(this.dateRange[0], this.dateRange[1]).subscribe(data => {
+                this.entriesList = data;
+                this.loading = false;
+                this.messageService.add({
+                    severity: this.entriesList.length == 0 ? 'success' : 'warn',
+                    summary: this.entriesList.length == 0 ? lang.info : lang.warn,
+                    detail: this.entriesList.length == 0 ? lang.noErrorTagDetected : lang.hasBeDetected + this.entriesList.length + lang.tagsWithError
+                });
+            }, error => {
+                console.log(error);
+                this.loading = false;
             });
-        }, error => {
-            console.log(error);
-            this.loading = false;
-        });
+        })
     }
 
     missingZone(entries: Entry[]) {

@@ -14,6 +14,7 @@ import {EkinDbReviewApiRestService} from "../../service/ekin-db-review-api-rest.
 import {ConfigService} from "../../service/config.service";
 import {MessageService} from "primeng/api";
 import {ToastModule} from "primeng/toast";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {ToastModule} from "primeng/toast";
         BadgeModule,
         DockModule,
         DialogModule,
-        ToastModule
+        ToastModule,
+        TranslateModule
     ],
     providers: [
         EkinDbReviewApiRestService,
