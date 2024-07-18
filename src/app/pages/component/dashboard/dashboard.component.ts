@@ -2,6 +2,8 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {EkinDbReviewApiRestService} from "../../service/ekin-db-review-api-rest.service";
 import {ConfigService} from "../../service/config.service";
 import {CountEntriesByDates} from "../../api/countEntriesByDates";
+import {TranslateService} from "@ngx-translate/core";
+import {elements} from "chart.js";
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -9,28 +11,28 @@ import {CountEntriesByDates} from "../../api/countEntriesByDates";
 export class DashboardComponent implements OnInit, OnDestroy {
 
     //Block1
-    cantPesadasToday = "LOADING";
-    cantPesadasLastVersion = "LOADING";
-    cantPesadasLastRevision = "LOADING";
+    cantPesadasToday = "";
+    cantPesadasLastVersion = "";
+    cantPesadasLastRevision = "";
 
     //Block2
-    cantLotesProcesados = "LOADING";
-    cantLotesProcesadosUltimaRevision = "LOADING";
+    cantLotesProcesados = "";
+    cantLotesProcesadosUltimaRevision = "";
 
     //Block3
-    cantErrorTag = "LOADING";
-    cantNewErrors = "LOADING";
+    cantErrorTag = "";
+    cantNewErrors = "";
     errorType = "green";
 
     //Block4
-    cantLotesConErrores = "LOADING";
-    cantLotesConErroresUltimaVersion = "LOADING";
+    cantLotesConErrores = "";
+    cantLotesConErroresUltimaVersion = "";
 
     //Chart
     chartData: any;
     chartOptions: any;
 
-    constructor(private service: EkinDbReviewApiRestService, private configService: ConfigService) {
+    constructor(private service: EkinDbReviewApiRestService, private configService: ConfigService, private translateService : TranslateService) {
     }
 
     ngOnInit() {
@@ -52,12 +54,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.log(error);
         });
         this.configService.getConfig().subscribe((data: any) => {
-            this.service.getPalletsProcessedInRangeDates(new Date(data.lastEkinsaSoftwareInstallDate)).subscribe(data => {
+            this.service.getPalletsProcessedInRangeDates(new Date(data.officialDbInitDate)).subscribe(data => {
                 this.cantPesadasLastVersion = <string>data;
             }, error => {
                 console.log(error);
             });
-            this.service.getPalletsProcessedInRangeDates(new Date(data.initLastEkinsaSoftwareRevisionDate)).subscribe(data => {
+            this.service.getPalletsProcessedInRangeDates(new Date(data.lastSoftwareUpdateDate)).subscribe(data => {
                 this.cantPesadasLastRevision = <string>data;
             }, error => {
                 console.log(error);
@@ -67,12 +69,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     loadCard2Data() {
         this.configService.getConfig().subscribe((data: any) => {
-            this.service.getCountLotesProcesados(new Date(data.lastEkinsaSoftwareInstallDate), new Date()).subscribe(data => {
+            this.service.getCountLotesProcesados(new Date(data.officialDbInitDate), new Date()).subscribe(data => {
                 this.cantLotesProcesados = <string>data;
             }, error => {
                 console.log(error);
             });
-            this.service.getCountLotesProcesados(new Date(data.initLastEkinsaSoftwareRevisionDate), new Date()).subscribe(data => {
+            this.service.getCountLotesProcesados(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
                 this.cantLotesProcesadosUltimaRevision = <string>data;
             }, error => {
                 console.log(error);
@@ -82,30 +84,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     loadCard3Data() {
         this.configService.getConfig().subscribe((data: any) => {
-            this.service.getCountErrorsInTag(new Date(data.lastEkinsaSoftwareInstallDate), new Date()).subscribe(data => {
+            this.service.getCountErrorsInTag(new Date(data.officialDbInitDate), new Date()).subscribe(data => {
                 this.cantErrorTag = <string>data;
             }, error => {
                 console.log(error);
             });
+            let tempDate = new Date();
+            tempDate.setDate(tempDate.getDate());
+            this.service.getCountErrorsInTag(new Date(data.lastSoftwareUpdateDate), tempDate).subscribe(data => {
+                this.cantNewErrors = ((data - 5 == 0) ? '' : '+') + ((<number>data) - 5);
+                this.errorType = (data - 5 == 0) ? 'green' : 'red';
+            }, error => {
+                console.log(error);
+            });
         });
-        let tempDate = new Date();
-        tempDate.setDate(tempDate.getDate() - 1);
-        this.service.getCountErrorsInTag(new Date('2023-08-24'), tempDate).subscribe(data => {
-            this.cantNewErrors = ((data - 5 == 0) ? '' : '+') + ((<number>data) - 5);
-            this.errorType = (data - 5 == 0) ? 'green' : 'red';
-        }, error => {
-            console.log(error);
-        });
+
     }
 
     loadCard4Data() {
         this.configService.getConfig().subscribe((data: any) => {
-            this.service.getCountLotesConErrores(new Date(data.lastEkinsaSoftwareInstallDate), new Date()).subscribe(data => {
+            this.service.getCountLotesConErrores(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
                 this.cantLotesConErrores = <string>data;
             }, error => {
                 console.log(error);
             });
-            this.service.getCountLotesConErrores(new Date(data.initLastEkinsaSoftwareRevisionDate), new Date()).subscribe(data => {
+            this.service.getCountLotesConErrores(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
                 this.cantLotesConErroresUltimaVersion = '+' + <string>data;
             }, error => {
                 console.log(error);
@@ -119,50 +122,55 @@ export class DashboardComponent implements OnInit, OnDestroy {
         let labels: string[] = [];
         let valuesLlenado: number[] = [];
         let valuesVaciado: number[] = [];
-        let month: string[] = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        let month: string[] = [];
 
         this.chartData = {
             labels: labels,
             datasets: []
         };
 
-        this.service.countEntriesVaciadoOrLLenadoByDates(false).subscribe((dataLL: CountEntriesByDates[]) => {
-            this.service.countEntriesVaciadoOrLLenadoByDates(true).subscribe((dataV: CountEntriesByDates[]) => {
-                let mayor = dataV.length > dataLL.length? dataV : dataLL;
-                mayor.forEach(p=>{
-                    labels.push(month[p.monthEntries - 1] + '-' + p.yearEntries);
+        this.translateService.get("primeng.monthNamesShort").subscribe(data=>{
+            this.translateService.get("lang").subscribe(lang=>{
+                month = data;
+                this.service.countEntriesVaciadoOrLLenadoByDates(false).subscribe((dataLL: CountEntriesByDates[]) => {
+                    this.service.countEntriesVaciadoOrLLenadoByDates(true).subscribe((dataV: CountEntriesByDates[]) => {
+                        let mayor = dataV.length > dataLL.length ? dataV : dataLL;
+                        mayor.forEach(p => {
+                            labels.push(month[p.monthEntries - 1] + '-' + p.yearEntries);
+                        });
+
+                        for (let datum of dataLL) {
+                            valuesLlenado.push(datum.cantidadRegistros);
+                        }
+                        this.chartData.datasets.push(
+                            {
+                                label: lang.toFully,
+                                data: valuesLlenado,
+                                fill: false,
+                                backgroundColor: documentStyle.getPropertyValue('--blue-300'),
+                                borderColor: documentStyle.getPropertyValue('--blue-300'),
+                                tension: .4
+                            },
+                        );
+
+                        for (let datum of dataV) {
+                            valuesVaciado.push(datum.cantidadRegistros);
+                        }
+                        this.chartData.datasets.push(
+                            {
+                                label: lang.toEmpty,
+                                data: valuesVaciado,
+                                fill: false,
+                                backgroundColor: documentStyle.getPropertyValue('--red-300'),
+                                borderColor: documentStyle.getPropertyValue('--red-300'),
+                                tension: .4
+                            }
+                        );
+                        this.reloadChartData(documentStyle);
+                    });
                 });
-
-                for (let datum of dataLL) {
-                        valuesLlenado.push(datum.cantidadRegistros);
-                    }
-                this.chartData.datasets.push(
-                    {
-                        label: "LLenado",
-                        data: valuesLlenado,
-                        fill: false,
-                        backgroundColor: documentStyle.getPropertyValue('--blue-300'),
-                        borderColor: documentStyle.getPropertyValue('--blue-300'),
-                        tension: .4
-                    },
-                );
-
-                for (let datum of dataV) {
-                    valuesVaciado.push(datum.cantidadRegistros);
-                }
-                this.chartData.datasets.push(
-                    {
-                        label: "Vaciado",
-                        data: valuesVaciado,
-                        fill: false,
-                        backgroundColor: documentStyle.getPropertyValue('--red-300'),
-                        borderColor: documentStyle.getPropertyValue('--red-300'),
-                        tension: .4
-                    }
-                );
-                this.reloadChartData(documentStyle);
             });
-        });
+        })
         this.reloadChartData(documentStyle);
     }
 

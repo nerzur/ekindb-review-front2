@@ -6,7 +6,14 @@
         </div>
         <div class="layout-main-container">
             <div class="layout-main">
-                <p-messages [(value)]="messages" [enableService]="false" [closable]="true"></p-messages>
+<!--                <p-messages [(value)]="messages" [enableService]="false" [closable]="true"></p-messages>-->
+                <p-messages severity="warn" [closable]="true" *ngIf="showMessage">
+                    <ng-template pTemplate>
+                        <i class="pi pi-exclamation-triangle" style="font-size: 2em"></i>
+                        <div class="ml-2">{{'lang.pageUnderDevelopMessage' | translate}} <strong>{{lastEkinsaSoftwareVersion}}</strong> {{'lang.of' | translate}} <strong>{{lastEkinsaSoftwareInstallDate}}</strong>.</div>
+                        <i class="pi pi-times" style="margin-left: auto;" (click)="closeMessage()"></i>
+                    </ng-template>
+                </p-messages>
                 <router-outlet></router-outlet>
             </div>
             <app-footer></app-footer>

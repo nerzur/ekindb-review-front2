@@ -24,6 +24,9 @@ import {MessageService} from "primeng/api";
 import {EkinDbReviewApiRestService} from "../pages/service/ekin-db-review-api-rest.service";
 import {BlockUIModule} from "primeng/blockui";
 import {MessagesModule} from "primeng/messages";
+import {DropdownModule} from "primeng/dropdown";
+import {TranslateModule} from "@ngx-translate/core";
+import {ButtonDirective} from "primeng/button";
 
 @NgModule({ declarations: [
         AppMenuitemComponent,
@@ -48,7 +51,7 @@ import {MessagesModule} from "primeng/messages";
         AppConfigModule,
         TooltipModule,
         BlockUIModule,
-        MessagesModule], providers: [
+        MessagesModule, DropdownModule, TranslateModule, ButtonDirective], providers: [
         EkinDbReviewApiRestService,
         ConfigService,
         DatePipe,

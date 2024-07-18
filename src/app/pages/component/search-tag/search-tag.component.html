@@ -1,12 +1,12 @@
 <div class="grid">
     <div class="col lg:col-12 xml:col-12">
         <div class="card">
-            <h5>Buscar registros de Tag</h5>
+            <h5>{{'lang.searchTag' | translate}}</h5>
 
             <div class="flex align-items-end justify-content-end">
                 <input pInputText id="tagNumber" tooltipPosition="bottom" pAutoFocus [autofocus]="true"
-                       pTooltip='El valor introducido debe contener 16 caracteres, debe comenzar por E00 y contener solo letras mayúsculas y números.'
-                       [pKeyFilter]="tagNumber" [pValidateOnly]="true" placeholder="Identificador del tag" type="text" class="form-control" name="tagForm" [(ngModel)]="tagForm"/>
+                       pTooltip="{{'lang.tagInputTooltip' | translate}}"
+                       [pKeyFilter]="tagNumber" [pValidateOnly]="true" placeholder="{{'lang.tagIdentifier' | translate}}" type="text" class="form-control" name="tagForm" [(ngModel)]="tagForm"/>
                 <button pButton (click)="searchDb()" [disabled]="!validateRegex()" style="margin-left: 0.5em" pRipple icon="pi pi-search"></button>
             </div>
 
@@ -21,17 +21,18 @@
                     [paginator]="true"
                     [rows]="10"
                     [showCurrentPageReport]="true"
-                    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                    currentPageReportTemplate="{{'lang.showing' | translate}} {first} {{'lang.to' | translate}} {last} {{'lang.of1' | translate}} {totalRecords} {{'lang.registries' | translate}}"
                     [loading]="loading"
                     [rowsPerPageOptions]="[10, 25, 50]"
                     class="table align-items-center mb-0">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tag</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lote</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Peso</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Zona</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.tag' | translate}}</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.date' | translate}}</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.lote' | translate}}</th>
+                            <!--<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>-->
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.weight' | translate}}</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.zone' | translate}}</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-entry>

@@ -3,11 +3,11 @@
 
     <div class="col lg:col-12 xl:col-12">
         <div class="card">
-            <h5>Errores detectados en EkinsaDB (entradas/salidas no coincidentes)</h5>
+            <h5>{{'lang.findErrorsInDbHeader' | translate}}</h5>
 
             <div class="flex align-items-end justify-content-end">
                 <p-calendar id="datesRange" name="datesRange" selectionMode="range"
-                            placeholder="Seleccione un rango de fechas"
+                            placeholder="{{'lang.selectADateRange' | translate}}"
                             dateFormat="yymmdd"
                             [readonlyInput]="true"
                             [showButtonBar]="true"
@@ -29,7 +29,7 @@
                         [paginator]="true"
                         [rows]="10"
                         [showCurrentPageReport]="true"
-                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                        currentPageReportTemplate="{{'lang.showing' | translate}} {first} {{'lang.to' | translate}} {last} {{'lang.of1' | translate}} {totalRecords} {{'lang.registries' | translate}}"
                         [loading]="loading"
                         [rowsPerPageOptions]="[10, 25, 50]"
                         class="table align-items-center mb-0">
@@ -43,11 +43,12 @@
 
                         <ng-template pTemplate="header">
                             <tr>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tag</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lote</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Peso</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Zona</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.tag' | translate}}</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.date' | translate}}</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.lote' | translate}}</th>
+<!--                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>-->
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.weight' | translate}}</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.zone' | translate}}</th>
                                 <!--          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Errors</th>-->
                             </tr>
                         </ng-template>
@@ -55,7 +56,7 @@
                             <tr>
                                 <td colspan="6" class="align-middle text-center text-sm bg-gray-100">
                                     <strong class="text-bold text-center text-md-center">{{entries.tag}} <i style="margin-left: 5px; margin-right: 10px" pBadge severity="danger" value="{{missingZone(entries.entriesList)}}"></i> - {{entries.countEntries}}
-                                        entradas</strong>
+                                        {{entries.countEntries > 1 ? ('lang.entryPlural' | translate) : ('lang.entrySingular' | translate)}}</strong>
                                 </td>
                             </tr>
                             <tr *ngFor="let entry of entries.entriesList">
