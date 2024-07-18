@@ -11,11 +11,11 @@ import {PermissionGuard} from "./guards/permission.guard";
             {
                 path: '', component: AppLayoutComponent, canActivateChild: [AuthGuard],
                 children: [
-                    { path: '', loadChildren: () => import('./pages/component/dashboard/dashboard.module').then(m => m.DashboardModule), data: {roles: ['USER_ROLE']} },
+                    { path: '', loadChildren: () => import('./pages/component/dashboard/dashboard.module').then(m => m.DashboardModule), data: {roles: ['COMMON_USER_ROLE']} },
                     { path: 'profile', loadChildren: () => import('./pages/component/profile/profile.module').then(m => m.ProfileModule), data: {roles: ['IS_AUTHENTICATED']} },
-                    { path: 'errorSearch', loadChildren: () => import('./pages/component/error-search/error-search.module').then(m => m.ErrorSearchModule), data: {roles: ['USER_ROLE']} },
-                    { path: 'searchTag', loadChildren: () => import('./pages/component/search-tag/search-tag.module').then(m => m.SearchTagModule), data: {roles: ['USER_ROLE']} },
-                    { path: 'changeLote', loadChildren: () => import('./pages/component/change-lote/change-lote.module').then(m => m.ChangeLoteModule), data: {roles: ['USER_ROLE']} },
+                    { path: 'errorSearch', loadChildren: () => import('./pages/component/error-search/error-search.module').then(m => m.ErrorSearchModule), data: {roles: ['COMMON_USER_ROLE']} },
+                    { path: 'searchTag', loadChildren: () => import('./pages/component/search-tag/search-tag.module').then(m => m.SearchTagModule), data: {roles: ['COMMON_USER_ROLE']} },
+                    { path: 'changeLote', loadChildren: () => import('./pages/component/change-lote/change-lote.module').then(m => m.ChangeLoteModule), data: {roles: ['MODIFIER_USER_ROLE']} },
                     // { path: 'uikit', loadChildren: () => import('./demo/components/uikit/uikit.module').then(m => m.UIkitModule), data: {roles: ['ADMIN_ROLE']} },
                     // { path: 'utilities', loadChildren: () => import('./demo/components/utilities/utilities.module').then(m => m.UtilitiesModule), data: {roles: ['ADMIN_ROLE']} },
                     // { path: 'documentation', loadChildren: () => import('./demo/components/documentation/documentation.module').then(m => m.DocumentationModule) },

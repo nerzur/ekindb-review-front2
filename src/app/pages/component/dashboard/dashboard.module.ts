@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import {ChartModule} from "primeng/chart";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         DashboardsRoutingModule,
-        ChartModule
+        ChartModule,
+        TranslateModule
     ],
     declarations: [DashboardComponent]
 })

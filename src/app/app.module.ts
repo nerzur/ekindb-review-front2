@@ -13,8 +13,10 @@ import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {environment} from "../environments/environment";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient} from "@angular/common/http";
 import {AuthInterceptor} from "./pages/service/authInterceptor";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 function initializeKeycloak(keycloak: KeycloakService) {
     return () =>
@@ -34,9 +36,25 @@ function initializeKeycloak(keycloak: KeycloakService) {
         });
 }
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+}
+
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
-    imports: [AppRoutingModule, AppLayoutModule, KeycloakAngularModule],
+    imports: [
+        AppRoutingModule,
+        AppLayoutModule,
+        KeycloakAngularModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
+    ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         {

@@ -19,8 +19,34 @@
 <!--            <i class="pi pi-calendar"></i>-->
 <!--            <span>Calendar</span>-->
 <!--        </button>-->
+        <p-dropdown
+            [options]="countries"
+            [(ngModel)]="selectedCountry"
+            optionLabel="name"
+            (onChange)="changeLanguage()"
+            [showClear]="false">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedCountry">
+                    <img
+                        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                        [class]="'flag flag-' + selectedCountry.code.toLowerCase()"
+                        style="width: 18px" />
+                    <div>{{ selectedCountry.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-country pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <img
+                        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                        [class]="'flag flag-' + country.code.toLowerCase()"
+                        style="width: 18px" />
+                    <div>{{ country.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
         <button *ngIf="isLoggedIn" class="p-link layout-topbar-button"
-                pTooltip="Profile"
+                pTooltip="{{'lang.profile' | translate}}"
                 [routerLink]="['/profile']"
                 tooltipPosition="bottom">
             <i class="pi pi-user"></i>
@@ -28,14 +54,14 @@
         </button>
         <button *ngIf="isLoggedIn" class="p-link layout-topbar-button"
                 (click)="logout()"
-                pTooltip="Logout"
+                pTooltip="{{'lang.logout' | translate}}"
                 tooltipPosition="bottom">
             <i class="pi pi-sign-out"></i>
             <span>Logout</span>
         </button>
         <button *ngIf="!isLoggedIn" class="p-link layout-topbar-button"
                 (click)="login()"
-                pTooltip="Login"
+                pTooltip="{{'lang.login' | translate}}"
                 tooltipPosition="bottom">
             <i class="pi pi-sign-in"></i>
             <span>Login</span>

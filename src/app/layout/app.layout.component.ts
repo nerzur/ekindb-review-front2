@@ -7,6 +7,7 @@ import { AppTopBarComponent } from './app.topbar.component';
 import {KeycloakService} from "keycloak-angular";
 import {Message} from "primeng/api";
 import {ConfigService} from "../pages/service/config.service";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
     selector: 'app-layout',
@@ -31,7 +32,12 @@ export class AppLayoutComponent implements OnDestroy, OnInit {
 
     @ViewChild(AppTopBarComponent) appTopbar!: AppTopBarComponent;
 
-    constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router,  private readonly keycloak: KeycloakService, private configService : ConfigService) {
+    constructor(public layoutService: LayoutService,
+                public renderer: Renderer2,
+                public router: Router,
+                private readonly keycloak: KeycloakService,
+                private configService : ConfigService,
+                private translateServie : TranslateService) {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {
@@ -121,17 +127,11 @@ export class AppLayoutComponent implements OnDestroy, OnInit {
 
     ngOnInit(): void {
         this.isLoggedIn = this.keycloak.isLoggedIn();
-        this.configService.getConfig().subscribe((data: any) => {
-            this.lastEkinsaSoftwareInstallDate = data.lastEkinsaSoftwareInstallDate;
-            this.lastEkinsaSoftwareVersion = data.lastEkinsaSoftwareVersion;
-            this.messages = [{
-                severity: 'warn', summary: 'Warning',
-                detail: 'This page is under develop. Last Ekinsa\'s software version '
-                    + this.lastEkinsaSoftwareVersion
-                    + ' of '
-                    + this.lastEkinsaSoftwareInstallDate
-            }
-            ];
+        this.translateServie.get("lang").subscribe(langData=>{
+            this.configService.getConfig().subscribe((data: any) => {
+                this.lastEkinsaSoftwareInstallDate = data.lastSoftwareUpdateDate;
+                this.lastEkinsaSoftwareVersion = data.lastEkinsaSoftwareVersion;
+            })
         })
     }
 
@@ -143,5 +143,11 @@ export class AppLayoutComponent implements OnDestroy, OnInit {
         if (this.menuOutsideClickListener) {
             this.menuOutsideClickListener();
         }
+    }
+
+    showMessage = true; // Variable para controlar la visibilidad del mensaje
+
+    closeMessage(): void {
+        this.showMessage = false; // Oculta el mensaje al hacer clic en el botón de cierre
     }
 }
