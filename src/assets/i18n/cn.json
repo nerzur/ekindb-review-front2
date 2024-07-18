@@ -78,7 +78,14 @@
         "atLeastOneLowercase": "至少一个小写字母",
         "atLeastOneUppercase": "至少一个大写字母",
         "atLeastOneNumeric": "至少一个数字",
-        "minimumCharacters": "至少8个字符"
+        "minimumCharacters": "至少8个字符",
+        "accessDenied": "拒绝访问",
+        "youDontHaveAccessMessage": "您无权访问请求的资源。",
+        "goToHome": "返回首页",
+        "goToHomeDesc": "返回网站首页",
+        "logoutDesc": "注销当前用户",
+        "notFound": "资源未找到",
+        "resourceNotAvailableMessage": "请求的资源当前不可用。"
     },
     "primeng": {
         "accept": "是",

@@ -84,44 +84,42 @@ export class ChangeLoteComponent implements OnInit {
     }
 
     execute(){
-        let tags = [];
-        this.selectedTags.forEach(e=>{
-            tags.push(e.name);
-        });
-        let updateLote = new UpdateLote(tags, this.prevLoteSelected[0].name, this.newLoteSelected[0].name, !this.isLlenado)
+        if(!this.isFormInvalid){
+            let tags = [];
+            this.selectedTags.forEach(e=>{
+                tags.push(e.name);
+            });
+            let updateLote = new UpdateLote(tags, this.prevLoteSelected[0].name, this.newLoteSelected[0].name, !this.isLlenado)
 
-        this.service.updateLote(updateLote, true).subscribe(data=>{
-            this.translateService.get("lang").subscribe(langData =>{
-                this.confirmationService.confirm({
-                    message: langData.modifyDialog1 + data.length + langData.modifyDialog2,
-                    header: langData.alertHeader,
-                    icon: 'pi pi-exclamation-triangle',
-                    acceptIcon:"none",
-                    acceptLabel: langData.yes,
-                    rejectLabel: langData.no,
-                    rejectIcon:"none",
-                    rejectButtonStyleClass:"p-button-text",
+            this.service.updateLote(updateLote, true).subscribe(data=>{
+                this.translateService.get("lang").subscribe(langData =>{
+                    this.confirmationService.confirm({
+                        message: langData.modifyDialog1 + data.length + langData.modifyDialog2,
+                        header: langData.alertHeader,
+                        icon: 'pi pi-exclamation-triangle',
+                        acceptIcon:"none",
+                        acceptLabel: langData.yes,
+                        rejectLabel: langData.no,
+                        rejectIcon:"none",
+                        rejectButtonStyleClass:"p-button-text",
 
-                    accept: () => {
-                        this.service.updateLote(updateLote, false).subscribe(any=>{
-                            this.prevLoteSelected = [];
-                            this.newLoteSelected = [];
-                            this.selectedTags = [];
-                            this.availableTags = [];
-                            this.messageService.add({ severity: 'success', summary: langData.successHeader, detail: langData.successMessage });
-                        }, error => {
-                            this.messageService.add({ severity: 'error', summary: langData.errorHeader, detail: langData.errorMessage });
-                        });
-                    },
-                    reject: () => {
-                        this.messageService.add({ severity: 'error', summary: langData.cancelledHeader, detail: langData.cancelledMessage, life: 3000 });
-                    }
-                });
-            })
-        });
-
-
-
-
+                        accept: () => {
+                            this.service.updateLote(updateLote, false).subscribe(any=>{
+                                this.prevLoteSelected = [];
+                                this.newLoteSelected = [];
+                                this.selectedTags = [];
+                                this.availableTags = [];
+                                this.messageService.add({ severity: 'success', summary: langData.successHeader, detail: langData.successMessage });
+                            }, error => {
+                                this.messageService.add({ severity: 'error', summary: langData.errorHeader, detail: langData.errorMessage });
+                            });
+                        },
+                        reject: () => {
+                            this.messageService.add({ severity: 'error', summary: langData.cancelledHeader, detail: langData.cancelledMessage, life: 3000 });
+                        }
+                    });
+                })
+            });
+        }
     }
 }

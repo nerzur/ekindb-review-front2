@@ -78,7 +78,14 @@
         "atLeastOneLowercase": "At least one lowercase letter",
         "atLeastOneUppercase": "At least one uppercase letter",
         "atLeastOneNumeric": "At least one number",
-        "minimumCharacters": "Minimum 8 characters"
+        "minimumCharacters": "Minimum 8 characters",
+        "accessDenied": "Access Denied",
+        "youDontHaveAccessMessage": "You are not allowed to access the requested resource.",
+        "goToHome": "Go to Home",
+        "goToHomeDesc": "Return to the home page",
+        "logoutDesc": "Log out of the current user",
+        "notFound": "Resource not found",
+        "resourceNotAvailableMessage": "The requested resource is currently not available."
     },
     "primeng": {
         "accept": "Yes",

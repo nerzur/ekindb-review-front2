@@ -78,7 +78,14 @@
         "atLeastOneLowercase" : "Al menos una letra minúscula",
         "atLeastOneUppercase" : "Al menos una letra mayúscula",
         "atLeastOneNumeric" : "Al menus un número",
-        "minimumCharacters" : "8 caracteres como mínimo"
+        "minimumCharacters" : "8 caracteres como mínimo",
+        "accessDenied" : "Acceso Denegado",
+        "youDontHaveAccessMessage" : "No tienes permitido acceder al recurso solicitado.",
+        "goToHome" : "Volver al Inicio",
+        "goToHomeDesc" : "Regresar al inicio del sitio",
+        "logoutDesc" : "Cerrar sesión del usuario actual",
+        "notFound" : "Recurso no encontrado",
+        "resourceNotAvailableMessage" : "El recurso solicitado no está disponible actualmente."
     },
     "primeng": {
         "accept": "Sí",
