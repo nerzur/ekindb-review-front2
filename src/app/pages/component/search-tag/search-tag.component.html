@@ -30,7 +30,7 @@
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.tag' | translate}}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.date' | translate}}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.lote' | translate}}</th>
-                            <!--<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>-->
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.weight' | translate}}</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.zone' | translate}}</th>
                         </tr>
@@ -45,6 +45,9 @@
                             </td>
                             <td class="align-middle text-center text-sm">
                                 <p class="text-xs text-secondary mb-0">{{entry.numeroLote}} </p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs text-secondary mb-0">{{entry.folio == null ? '-' : entry.folio}} </p>
                             </td>
                             <td class="align-middle text-center text-sm">
                                 <p class="text-xs text-secondary mb-0">{{entry.peso}}</p>
