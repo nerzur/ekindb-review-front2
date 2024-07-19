@@ -35,7 +35,7 @@
         "processedBatches": "Lots traités",
         "errorsDetectedInTags": "Erreurs détectées dans les tags",
         "batchesWithErrors": "Lots avec des erreurs",
-        "pendingTaskHeader": "Tâches en attente",
+        "pendingTaskHeader": "Bientôt",
         "pendingTaskBody": "Cette section n'a pas encore été développée",
         "home": "Accueil",
         "dashboard": "Tableau de bord",
@@ -85,7 +85,10 @@
         "goToHomeDesc": "Retourner à la page d'accueil",
         "logoutDesc": "Déconnecter l'utilisateur actuel",
         "notFound": "Ressource non trouvée",
-        "resourceNotAvailableMessage": "La ressource demandée n'est actuellement pas disponible."
+        "resourceNotAvailableMessage": "La ressource demandée n'est actuellement pas disponible.",
+        "bufferVaciado": "Tampon de Vidange",
+        "bufferLlenado": "Tampon de Remplissage",
+        "id": "Id"
     },
     "primeng": {
         "accept": "Oui",

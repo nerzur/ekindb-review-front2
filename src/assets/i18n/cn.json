@@ -35,7 +35,7 @@
         "processedBatches": "已处理批次",
         "errorsDetectedInTags": "标签中检测到的错误",
         "batchesWithErrors": "有错误的批次",
-        "pendingTaskHeader": "待办任务",
+        "pendingTaskHeader": "很快",
         "pendingTaskBody": "此部分尚未开发",
         "home": "首页",
         "dashboard": "仪表板",
@@ -85,7 +85,10 @@
         "goToHomeDesc": "返回网站首页",
         "logoutDesc": "注销当前用户",
         "notFound": "资源未找到",
-        "resourceNotAvailableMessage": "请求的资源当前不可用。"
+        "resourceNotAvailableMessage": "请求的资源当前不可用。",
+        "bufferVaciado": "排空缓冲区",
+        "bufferLlenado": "填充缓冲区",
+        "id": "标识"
     },
     "primeng": {
         "accept": "是",

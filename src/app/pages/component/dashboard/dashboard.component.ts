@@ -3,7 +3,7 @@ import {EkinDbReviewApiRestService} from "../../service/ekin-db-review-api-rest.
 import {ConfigService} from "../../service/config.service";
 import {CountEntriesByDates} from "../../api/countEntriesByDates";
 import {TranslateService} from "@ngx-translate/core";
-import {elements} from "chart.js";
+import {Buffer} from "../../api/Buffer";
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -32,6 +32,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartData: any;
     chartOptions: any;
 
+    buffers : Buffer[][] = [[]];
+    loadingTable : boolean[] = [true, true];
+    private intervalId: any;
+
     constructor(private service: EkinDbReviewApiRestService, private configService: ConfigService, private translateService : TranslateService) {
     }
 
@@ -40,16 +44,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.loadCard2Data();
         this.loadCard3Data();
         this.loadCard4Data();
+        this.loadBuffers();
+        this.intervalId = setInterval(() => {
+            this.loadBuffers();
+        }, 10000); // load data avery 10 seconds
         this.initChart();
     }
 
     ngOnDestroy() {
-
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     }
 
     loadCard1Data(): void {
         this.service.getDbEntriesToday().subscribe(data => {
-            this.cantPesadasToday = data;
+            data == '' ? this.cantPesadasToday = "0" : this.cantPesadasToday = data;
         }, error => {
             console.log(error);
         });
@@ -114,6 +124,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 console.log(error);
             });
         });
+    }
+
+    loadBuffers(){
+        // this.loadingTable = [true,true];
+        this.service.getBufferLlenado().subscribe(data=>{
+            this.buffers[1] = data;
+            this.loadingTable[1] = false;
+        })
+
+        this.service.getBufferVaciado().subscribe(data=>{
+            this.buffers[0] = data;
+            this.loadingTable[0] = false;
+        })
     }
 
     initChart() {
