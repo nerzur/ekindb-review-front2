@@ -65,12 +65,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getPalletsProcessedInRangeDates(new Date(data.officialDbInitDate)).subscribe(data => {
-                this.cantPesadasLastVersion = <string>data;
+                data == '' ? this.cantPesadasLastVersion = "0" : this.cantPesadasLastVersion = <string>data;
             }, error => {
                 console.log(error);
             });
             this.service.getPalletsProcessedInRangeDates(new Date(data.lastSoftwareUpdateDate)).subscribe(data => {
-                this.cantPesadasLastRevision = <string>data;
+                data == '' ? this.cantPesadasLastRevision = "0" : this.cantPesadasLastRevision = <string>data;
             }, error => {
                 console.log(error);
             });
@@ -80,12 +80,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loadCard2Data() {
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getCountLotesProcesados(new Date(data.officialDbInitDate), new Date()).subscribe(data => {
-                this.cantLotesProcesados = <string>data;
+                data == '' ? this.cantLotesProcesados = "0" : this.cantLotesProcesados = <string>data;
             }, error => {
                 console.log(error);
             });
             this.service.getCountLotesProcesados(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
-                this.cantLotesProcesadosUltimaRevision = <string>data;
+                data == '' ? this.cantLotesProcesadosUltimaRevision = "0" : this.cantLotesProcesadosUltimaRevision = <string>data;
             }, error => {
                 console.log(error);
             });
@@ -95,15 +95,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loadCard3Data() {
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getCountErrorsInTag(new Date(data.officialDbInitDate), new Date()).subscribe(data => {
-                this.cantErrorTag = <string>data;
+                data == '' ? this.cantErrorTag = "0" : this.cantErrorTag = <string>data;
             }, error => {
                 console.log(error);
             });
             let tempDate = new Date();
             tempDate.setDate(tempDate.getDate());
             this.service.getCountErrorsInTag(new Date(data.lastSoftwareUpdateDate), tempDate).subscribe(data => {
-                this.cantNewErrors = ((data - 5 == 0) ? '' : '+') + ((<number>data) - 5);
-                this.errorType = (data - 5 == 0) ? 'green' : 'red';
+                this.cantNewErrors = ((data == 0) ? '' : '+') + ((<number>data));
+                this.errorType = (data == 0) ? 'green' : 'red';
             }, error => {
                 console.log(error);
             });
@@ -114,12 +114,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loadCard4Data() {
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getCountLotesConErrores(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
-                this.cantLotesConErrores = <string>data;
+                data == '' ? this.cantLotesConErrores = "0" : this.cantLotesConErrores = <string>data;
             }, error => {
                 console.log(error);
             });
             this.service.getCountLotesConErrores(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
-                this.cantLotesConErroresUltimaVersion = '+' + <string>data;
+                data == '' ? this.cantLotesConErroresUltimaVersion = "0" : this.cantLotesConErroresUltimaVersion = '+' + <string>data;
             }, error => {
                 console.log(error);
             });
