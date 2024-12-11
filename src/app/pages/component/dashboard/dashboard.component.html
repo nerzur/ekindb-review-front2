@@ -4,17 +4,26 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3">{{'lang.totalPalletsProcessed' | translate}}</span>
-                    <div class="text-900 font-medium text-xl">{{ cantPesadasLastVersion == "" ? ('lang.loading' | translate) : cantPesadasLastVersion }}</div>
+                    <div class="text-900 font-medium text-xl">
+                        <i *ngIf="cantPesadasLastVersion == '' else c1" class="pi pi-spin pi-spinner" style=""></i>
+                        <ng-template #c1>{{cantPesadasLastVersion}}</ng-template>
+                    </div>
                 </div>
                 <div class="flex align-items-center justify-content-center bg-blue-100 border-round"
                      [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-box text-blue-500 text-xl"></i>
+                    <i class="pi pi-warehouse text-blue-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">+{{ cantPesadasLastRevision == "" ? ('lang.loading' | translate) : cantPesadasLastRevision }} </span>
-            <span class="text-500">{{'lang.fromLastVersion' | translate}} <br/></span>
-            <span class="text-green-500 font-medium">+{{ cantPesadasToday == "" ? ('lang.loading' | translate) : cantPesadasToday }} </span>
-            <span class="text-500">{{'lang.today' | translate}}</span>
+            <span class="font-medium">
+                 <i *ngIf="cantPesadasLastRevision == '' else c11" class="pi pi-spin pi-spinner" style=""></i>
+                <ng-template #c11><span class="text-green-500">+{{cantPesadasLastRevision}}</span></ng-template>
+            </span>
+            <span class="text-500">&nbsp;{{'lang.fromLastVersion' | translate}} <br/></span>
+            <span class="font-medium">
+                <i *ngIf="cantPesadasToday == '' else c12" class="pi pi-spin pi-spinner" style=""></i>
+                <ng-template #c12><span class="text-green-500">+{{cantPesadasToday}}</span> </ng-template>
+            </span>
+            <span class="text-500">&nbsp;{{'lang.today' | translate}}</span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
@@ -22,15 +31,21 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3">{{'lang.processedBatches' | translate}}</span>
-                    <div class="text-900 font-medium text-xl">{{ cantLotesProcesados == "" ? ('lang.loading' | translate) : cantLotesProcesados }}</div>
+                    <div class="text-900 font-medium text-xl">
+                        <i *ngIf="cantLotesProcesados == '' else c2" class="pi pi-spin pi-spinner"></i>
+                        <ng-template #c2>{{cantLotesProcesados}}</ng-template>
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                <div class="flex align-items-center justify-content-center bg-green-100 border-round"
                      [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-map-marker text-orange-500 text-xl"></i>
+                    <i class="pi pi-list text-green-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">+{{ cantLotesProcesadosUltimaRevision == "" ? ('lang.loading' | translate) : cantLotesProcesadosUltimaRevision }} </span>
-            <span class="text-500"> {{'lang.fromLastVersion' | translate}}  <br/></span>
+            <span class="font-medium">
+                <i *ngIf="cantLotesProcesadosUltimaRevision == '' else c21" class="pi pi-spin pi-spinner" style=""></i>
+                <ng-template #c21><span class="text-green-500">+{{cantLotesProcesadosUltimaRevision}}</span></ng-template>
+            </span>
+            <span class="text-500">&nbsp;{{'lang.fromLastVersion' | translate}}  <br/></span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
@@ -38,15 +53,23 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3"> {{'lang.errorsDetectedInTags' | translate}}</span>
-                    <div class="text-900 font-medium text-xl">{{ cantErrorTag == "" ? ('lang.loading' | translate) : cantErrorTag }}</div>
+                    <div class="text-900 font-medium text-xl">
+                        <i *ngIf="cantErrorTag == '' else c3" class="pi pi-spin pi-spinner"></i>
+                        <ng-template #c3>{{cantErrorTag}}</ng-template>
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                <div class="flex align-items-center justify-content-center bg-red-100 border-round"
                      [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-inbox text-cyan-500 text-xl"></i>
+                    <i class="pi pi-tags text-red-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-{{errorType}}-500 font-medium">{{ cantNewErrors == "" ? ('lang.loading' | translate) : cantNewErrors }}  </span>
-            <span class="text-500">{{'lang.fromLastVersion' | translate}}</span>
+            <span class="font-medium">
+                <i *ngIf="cantNewErrors == '' else c31" class="pi pi-spin pi-spinner" style=""></i>
+                <ng-template #c31>
+                    <span class="text-{{errorType}}-500">{{cantNewErrors}}</span>
+                </ng-template>
+            </span>
+            <span class="text-500">&nbsp;{{'lang.fromLastVersion' | translate}}</span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
@@ -54,15 +77,101 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3">{{'lang.batchesWithErrors' | translate}}</span>
-                    <div class="text-900 font-medium text-xl">{{ cantLotesConErrores == "" ? ('lang.loading' | translate) : cantLotesConErrores }}</div>
+                    <div class="text-900 font-medium text-xl">
+                        <i *ngIf="cantLotesConErrores == '' else c4" class="pi pi-spin pi-spinner"></i>
+                        <ng-template #c4>{{cantLotesConErrores}}</ng-template>
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round"
                      [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-comment text-purple-500 text-xl"></i>
+                    <i class="pi pi-objects-column text-orange-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-red-500 font-medium">{{ cantLotesConErroresUltimaVersion == "" ? ('lang.loading' | translate) : cantLotesConErroresUltimaVersion }} </span>
-            <span class="text-500">{{'lang.fromLastVersion' | translate}}</span>
+            <span class="font-medium">
+                <i *ngIf="cantLotesConErroresUltimaVersion == '' else c41" class="pi pi-spin pi-spinner" style=""></i>
+                <ng-template #c41><span class="text-red-500">{{cantLotesConErroresUltimaVersion}}</span></ng-template>
+            </span>
+            <span class="text-500">&nbsp;{{'lang.fromLastVersion' | translate}}</span>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-6">
+        <div class="card p-fluid">
+            <h5>{{'lang.bufferVaciado' | translate}}</h5>
+            <p-table
+                [value]="buffers[0]"
+                [paginator]="false"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="{{'lang.showing' | translate}} {first} {{'lang.to' | translate}} {last} {{'lang.of1' | translate}} {totalRecords} {{'lang.registries' | translate}}"
+                [loading]="loadingTable[0]"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                class="table align-items-center mb-0">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.id' | translate}}</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.tag' | translate}}</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.lote' | translate}}</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-entry>
+                    <tr>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs font-weight-bold mb-0">{{entry.id}}</p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-secondary mb-0">{{entry.tag}}</p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-secondary mb-0">{{entry.lote}} </p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-secondary mb-0">{{entry.folio == null ? '-' : entry.folio}} </p>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-6">
+        <div class="card p-fluid">
+            <h5>{{'lang.bufferLlenado' | translate}}</h5>
+            <p-table
+                [value]="buffers[1]"
+                [paginator]="false"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="{{'lang.showing' | translate}} {first} {{'lang.to' | translate}} {last} {{'lang.of1' | translate}} {totalRecords} {{'lang.registries' | translate}}"
+                [loading]="loadingTable[1]"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                class="table align-items-center mb-0">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.id' | translate}}</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.tag' | translate}}</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.lote' | translate}}</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-entry>
+                    <tr>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs font-weight-bold mb-0">{{entry.id}}</p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-secondary mb-0">{{entry.tag}}</p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-secondary mb-0">{{entry.lote}} </p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <p class="text-xs text-secondary mb-0">{{entry.folio == null ? '-' : entry.folio}} </p>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     </div>
 
@@ -74,7 +183,7 @@
     </div>
 
     <div class="col-12 xl:col-4">
-        <div class="card p-fluid">
+        <div class="card">
             <h5>{{'lang.pendingTaskHeader' | translate}}</h5>
             <span class="text-500">{{'lang.pendingTaskBody' | translate}}</span>
         </div>

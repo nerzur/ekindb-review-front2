@@ -5,6 +5,8 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import {ChartModule} from "primeng/chart";
 import {TranslateModule} from "@ngx-translate/core";
+import {PrimeTemplate} from "primeng/api";
+import {TableModule} from "primeng/table";
 
 @NgModule({
     imports: [
@@ -12,7 +14,9 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         DashboardsRoutingModule,
         ChartModule,
-        TranslateModule
+        TranslateModule,
+        PrimeTemplate,
+        TableModule
     ],
     declarations: [DashboardComponent]
 })

@@ -5,4 +5,5 @@ export interface Entry{
   weigth: string;
   date: Date;
   lote: String;
+  invoice : string;
 }

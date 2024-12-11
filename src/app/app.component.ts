@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.subscription = this.translate.stream('primeng').subscribe(data => {
                 this.primeNGConfig.setTranslation(data);
             });
-        })
+        },error => console.error(error))
     }
 
     changeLang(lang: string) {

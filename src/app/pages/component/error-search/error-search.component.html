@@ -46,7 +46,7 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.tag' | translate}}</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.date' | translate}}</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.lote' | translate}}</th>
-<!--                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>-->
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.weight' | translate}}</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.zone' | translate}}</th>
                                 <!--          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Errors</th>-->
@@ -69,6 +69,9 @@
                                 </td>
                                 <td class="align-middle text-center text-sm">
                                     <p class="text-xs text-secondary mb-0">{{entry.lote}} </p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs text-secondary mb-0">{{entry.invoice == null ? '-' : entry.invoice}} </p>
                                 </td>
                                 <td class="align-middle text-center text-sm">
                                     <p class="text-xs text-secondary mb-0">{{entry.weigth}}</p>
@@ -97,17 +100,18 @@
         [paginator]="true"
         [rows]="10"
         [showCurrentPageReport]="true"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+        currentPageReportTemplate="{{'lang.showing' | translate}} {first} {{'lang.to' | translate}} {last} {{'lang.of1' | translate}} {totalRecords} {{'lang.registries' | translate}}"
         [loading]="loadingDialog"
         [rowsPerPageOptions]="[10, 25, 50]"
         class="table align-items-center mb-0">
         <ng-template pTemplate="header">
             <tr>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tag</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lote</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Peso</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Zona</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.tag' | translate}}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.date' | translate}}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.lote' | translate}}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.invoice' | translate}}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.weight' | translate}}</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{{'lang.zone' | translate}}</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-entry>
@@ -120,6 +124,9 @@
                 </td>
                 <td class="align-middle text-center text-sm">
                     <p class="text-xs text-secondary mb-0">{{entry.numeroLote}} </p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                    <p class="text-xs text-secondary mb-0">{{entry.folio == null ? '-' : entry.folio}} </p>
                 </td>
                 <td class="align-middle text-center text-sm">
                     <p class="text-xs text-secondary mb-0">{{entry.peso}}</p>

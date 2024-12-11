@@ -35,7 +35,7 @@
         "processedBatches": "Processed batches",
         "errorsDetectedInTags": "Errors detected in tags",
         "batchesWithErrors": "Batches with errors",
-        "pendingTaskHeader": "Pending Tasks",
+        "pendingTaskHeader": "Soon",
         "pendingTaskBody": "This section has not been developed yet",
         "home": "Home",
         "dashboard": "Dashboard",
@@ -85,7 +85,10 @@
         "goToHomeDesc": "Return to the home page",
         "logoutDesc": "Log out of the current user",
         "notFound": "Resource not found",
-        "resourceNotAvailableMessage": "The requested resource is currently not available."
+        "resourceNotAvailableMessage": "The requested resource is currently not available.",
+        "bufferVaciado": "Empty Buffer",
+        "bufferLlenado": "Fill Buffer",
+        "id": "Id"
     },
     "primeng": {
         "accept": "Yes",

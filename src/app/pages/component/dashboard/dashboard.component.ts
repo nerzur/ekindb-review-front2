@@ -3,7 +3,7 @@ import {EkinDbReviewApiRestService} from "../../service/ekin-db-review-api-rest.
 import {ConfigService} from "../../service/config.service";
 import {CountEntriesByDates} from "../../api/countEntriesByDates";
 import {TranslateService} from "@ngx-translate/core";
-import {elements} from "chart.js";
+import {Buffer} from "../../api/Buffer";
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -32,6 +32,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartData: any;
     chartOptions: any;
 
+    buffers : Buffer[][] = [[]];
+    loadingTable : boolean[] = [true, true];
+    private intervalId: any;
+
     constructor(private service: EkinDbReviewApiRestService, private configService: ConfigService, private translateService : TranslateService) {
     }
 
@@ -40,27 +44,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.loadCard2Data();
         this.loadCard3Data();
         this.loadCard4Data();
+        this.loadBuffers();
+        this.intervalId = setInterval(() => {
+            this.loadBuffers();
+        }, 10000); // load data avery 10 seconds
         this.initChart();
     }
 
     ngOnDestroy() {
-
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     }
 
     loadCard1Data(): void {
         this.service.getDbEntriesToday().subscribe(data => {
-            this.cantPesadasToday = data;
+            data == '' ? this.cantPesadasToday = "0" : this.cantPesadasToday = data;
         }, error => {
             console.log(error);
         });
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getPalletsProcessedInRangeDates(new Date(data.officialDbInitDate)).subscribe(data => {
-                this.cantPesadasLastVersion = <string>data;
+                data == '' ? this.cantPesadasLastVersion = "0" : this.cantPesadasLastVersion = <string>data;
             }, error => {
                 console.log(error);
             });
             this.service.getPalletsProcessedInRangeDates(new Date(data.lastSoftwareUpdateDate)).subscribe(data => {
-                this.cantPesadasLastRevision = <string>data;
+                data == '' ? this.cantPesadasLastRevision = "0" : this.cantPesadasLastRevision = <string>data;
             }, error => {
                 console.log(error);
             });
@@ -70,12 +80,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loadCard2Data() {
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getCountLotesProcesados(new Date(data.officialDbInitDate), new Date()).subscribe(data => {
-                this.cantLotesProcesados = <string>data;
+                data == '' ? this.cantLotesProcesados = "0" : this.cantLotesProcesados = <string>data;
             }, error => {
                 console.log(error);
             });
             this.service.getCountLotesProcesados(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
-                this.cantLotesProcesadosUltimaRevision = <string>data;
+                data == '' ? this.cantLotesProcesadosUltimaRevision = "0" : this.cantLotesProcesadosUltimaRevision = <string>data;
             }, error => {
                 console.log(error);
             });
@@ -85,15 +95,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loadCard3Data() {
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getCountErrorsInTag(new Date(data.officialDbInitDate), new Date()).subscribe(data => {
-                this.cantErrorTag = <string>data;
+                data == '' ? this.cantErrorTag = "0" : this.cantErrorTag = <string>data;
             }, error => {
                 console.log(error);
             });
             let tempDate = new Date();
             tempDate.setDate(tempDate.getDate());
             this.service.getCountErrorsInTag(new Date(data.lastSoftwareUpdateDate), tempDate).subscribe(data => {
-                this.cantNewErrors = ((data - 5 == 0) ? '' : '+') + ((<number>data) - 5);
-                this.errorType = (data - 5 == 0) ? 'green' : 'red';
+                this.cantNewErrors = ((data == 0) ? '' : '+') + ((<number>data));
+                this.errorType = (data == 0) ? 'green' : 'red';
             }, error => {
                 console.log(error);
             });
@@ -104,16 +114,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
     loadCard4Data() {
         this.configService.getConfig().subscribe((data: any) => {
             this.service.getCountLotesConErrores(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
-                this.cantLotesConErrores = <string>data;
+                data == '' ? this.cantLotesConErrores = "0" : this.cantLotesConErrores = <string>data;
             }, error => {
                 console.log(error);
             });
             this.service.getCountLotesConErrores(new Date(data.lastSoftwareUpdateDate), new Date()).subscribe(data => {
-                this.cantLotesConErroresUltimaVersion = '+' + <string>data;
+                data == '' ? this.cantLotesConErroresUltimaVersion = "0" : this.cantLotesConErroresUltimaVersion = '+' + <string>data;
             }, error => {
                 console.log(error);
             });
         });
+    }
+
+    loadBuffers(){
+        // this.loadingTable = [true,true];
+        this.service.getBufferLlenado().subscribe(data=>{
+            this.buffers[1] = data;
+            this.loadingTable[1] = false;
+        })
+
+        this.service.getBufferVaciado().subscribe(data=>{
+            this.buffers[0] = data;
+            this.loadingTable[0] = false;
+        })
     }
 
     initChart() {

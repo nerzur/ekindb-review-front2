@@ -35,7 +35,7 @@
         "processedBatches": "Lotes procesados",
         "errorsDetectedInTags" : "Errores en Tag detectados",
         "batchesWithErrors" : "Lotes con errores",
-        "pendingTaskHeader" : "Tareas Pendientes",
+        "pendingTaskHeader" : "Próximamente",
         "pendingTaskBody" : "Esta sección aún no ha sido desarrollada",
         "home" : "Inicio",
         "dashboard" : "Dashboard",
@@ -85,7 +85,10 @@
         "goToHomeDesc" : "Regresar al inicio del sitio",
         "logoutDesc" : "Cerrar sesión del usuario actual",
         "notFound" : "Recurso no encontrado",
-        "resourceNotAvailableMessage" : "El recurso solicitado no está disponible actualmente."
+        "resourceNotAvailableMessage" : "El recurso solicitado no está disponible actualmente.",
+        "bufferVaciado" : "Buffer de Vaciado",
+        "bufferLlenado" : "Buffer de Llenado",
+        "id" : "Id"
     },
     "primeng": {
         "accept": "Sí",

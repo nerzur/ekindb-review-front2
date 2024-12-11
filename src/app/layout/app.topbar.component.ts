@@ -60,8 +60,8 @@ export class AppTopBarComponent implements OnInit{
         this.countries = [
             { name: 'Español', code: 'ES', lang: 'es' },
             { name: 'English', code: 'US', lang: 'en' },
-            { name: 'Chinese', code: 'CN', lang: 'cn' },
             { name: 'French', code: 'FR', lang: 'fr' },
+            { name: 'Chinese', code: 'CN', lang: 'cn' },
         ];
         this.userService.getUserLang().subscribe((data:any)=>{
             this.userService.defaultLang = data.lang == null ? "es" : data.lang;
