@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-    apiServerURL: "http://localhost:8090",
+    apiServerURL: "http://api-ekindb-review.havanaclub.cu",
     keycloak: {
-        authority: 'http://localhost:8080',
-        redirectUri: 'http://localhost:4200',
-        postLogoutRedirectUri: 'http://localhost:4200/logout',
-        realm: 'dev-env',
+        authority: 'http://authenticator.havanaclub.cu',
+        redirectUri: 'http://ekindb-review.havanaclub.cu',
+        postLogoutRedirectUri: 'http://ekindb-review.havanaclub.cu/logout',
+        realm: 'prod-env',
         clientId: 'ekindb-review-api-rest',
     },
     idleConfig: { idle: 10, timeout: 60, ping: 10 },
