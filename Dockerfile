@@ -1,5 +1,5 @@
 # Use an official Node runtime as a parent image
-FROM node:20
+FROM node:23 as nodeBuild
 
 # Set the working directory to /app
 WORKDIR /app
@@ -18,13 +18,10 @@ COPY . .
 RUN npm run build --prod
 
 # Establece la imagen base para el servidor web
-FROM nginx:1.21.3-alpine
+FROM nginx:1.27.3
 
 # Copia los archivos necesarios
-COPY --from=0 /app/dist/sakai-ng /usr/share/nginx/html
-
-# Expone el puerto 80
-#EXPOSE 80
+COPY --from=nodeBuild /app/dist/ekindb-review/browser /usr/share/nginx/html
 
 #Using host timezone in linux
 #VOLUME ["/etc/localtime:/etc/localtime:ro"]
