@@ -88,7 +88,9 @@
         "resourceNotAvailableMessage": "The requested resource is currently not available.",
         "bufferVaciado": "Empty Buffer",
         "bufferLlenado": "Fill Buffer",
-        "id": "Id"
+        "id": "Id",
+        "countOfErrorsByMonth": "Number of errors detected monthly",
+        "errorsDetected": "Number of errors"
     },
     "primeng": {
         "accept": "Yes",

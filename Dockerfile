@@ -5,11 +5,14 @@ FROM node:23 as nodeBuild
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
+COPY package.json ./
+#COPY .npmrc ./
 
 # Install dependencies
 RUN npm config set strict-ssl false
-RUN npm install
+RUN npm config set registry http://10.10.13.77:24002/repository/npm-proxy/
+RUN npm set loglevel verbose
+RUN npm install --fetch-retries=5 --fetch-timeout=60000
 
 # Copy the rest of the application code to the container
 COPY . .

@@ -32,9 +32,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartData: any;
     chartOptions: any;
 
+    //Chart
+    chartData1: any;
+    chartOptions1: any;
+
     buffers : Buffer[][] = [[]];
     loadingTable : boolean[] = [true, true];
     private intervalId: any;
+
+    isgraph1Loaded = false;
+    isgraph2Loaded = false;
+
 
     constructor(private service: EkinDbReviewApiRestService, private configService: ConfigService, private translateService : TranslateService) {
     }
@@ -48,7 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.intervalId = setInterval(() => {
             this.loadBuffers();
         }, 10000); // load data avery 10 seconds
-        this.initChart();
+        this.initCharts();
     }
 
     ngOnDestroy() {
@@ -139,15 +147,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
     }
 
-    initChart() {
+    initCharts() {
         const documentStyle = getComputedStyle(document.documentElement);
 
         let labels: string[] = [];
         let valuesLlenado: number[] = [];
         let valuesVaciado: number[] = [];
+        let valuesCountError: number[] = [];
         let month: string[] = [];
 
         this.chartData = {
+            labels: labels,
+            datasets: []
+        };
+
+        this.chartData1 = {
             labels: labels,
             datasets: []
         };
@@ -184,16 +198,36 @@ export class DashboardComponent implements OnInit, OnDestroy {
                                 label: lang.toEmpty,
                                 data: valuesVaciado,
                                 fill: false,
-                                backgroundColor: documentStyle.getPropertyValue('--red-300'),
-                                borderColor: documentStyle.getPropertyValue('--red-300'),
+                                backgroundColor: documentStyle.getPropertyValue('--green-300'),
+                                borderColor: documentStyle.getPropertyValue('--green-300'),
                                 tension: .4
                             }
                         );
+                        this.isgraph1Loaded = true;
                         this.reloadChartData(documentStyle);
                     });
                 });
+
+                this.service.countErrorsByMonth(12).subscribe((data: CountEntriesByDates[]) => {
+                    for (let datum of data) {
+                        valuesCountError.push(datum.cantidadRegistros);
+                    }
+                    this.chartData1.datasets.push(
+                        {
+                            label: lang.errorsDetected,
+                            data: valuesCountError,
+                            fill: false,
+                            backgroundColor: documentStyle.getPropertyValue('--red-300'),
+                            borderColor: documentStyle.getPropertyValue('--red-300'),
+                            tension: .4
+                        },
+                    );
+                    this.isgraph2Loaded = true;
+                    this.reloadChartData(documentStyle)
+                });
             });
         })
+
         this.reloadChartData(documentStyle);
     }
 

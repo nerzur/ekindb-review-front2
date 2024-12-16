@@ -96,6 +96,26 @@
     </div>
 
     <div class="col-12 xl:col-6">
+        <div class="card">
+            <i *ngIf="isgraph1Loaded == false else graph1" class="pi pi-spin pi-spinner"></i>
+            <ng-template #graph1>
+                <h5>{{'lang.toFully' | translate}} vs {{'lang.toEmpty' | translate}}</h5>
+                <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-6">
+        <div class="card">
+            <i *ngIf="isgraph2Loaded == false else graph2" class="pi pi-spin pi-spinner"></i>
+            <ng-template #graph2>
+                <h5>{{'lang.countOfErrorsByMonth' | translate}}</h5>
+                <p-chart type="line" [data]="chartData1" [options]="chartOptions"></p-chart>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-6">
         <div class="card p-fluid">
             <h5>{{'lang.bufferVaciado' | translate}}</h5>
             <p-table
@@ -172,20 +192,6 @@
                     </tr>
                 </ng-template>
             </p-table>
-        </div>
-    </div>
-
-    <div class="col-12 xl:col-8">
-        <div class="card">
-            <h5>{{'lang.toFully' | translate}} vs {{'lang.toEmpty' | translate}}</h5>
-            <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
-        </div>
-    </div>
-
-    <div class="col-12 xl:col-4">
-        <div class="card">
-            <h5>{{'lang.pendingTaskHeader' | translate}}</h5>
-            <span class="text-500">{{'lang.pendingTaskBody' | translate}}</span>
         </div>
     </div>
 </div>

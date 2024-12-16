@@ -88,7 +88,9 @@
         "resourceNotAvailableMessage": "请求的资源当前不可用。",
         "bufferVaciado": "排空缓冲区",
         "bufferLlenado": "填充缓冲区",
-        "id": "标识"
+        "id": "标识",
+        "countOfErrorsByMonth": "每月检测到的错误数量",
+        "errorsDetected": "错误数量"
     },
     "primeng": {
         "accept": "是",

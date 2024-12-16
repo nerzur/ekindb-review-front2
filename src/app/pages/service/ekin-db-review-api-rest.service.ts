@@ -106,5 +106,8 @@ export class EkinDbReviewApiRestService {
         return <string>this.datePipe.transform(Date.now(), this.dateFormat);
     }
 
+    countErrorsByMonth(monthCount: number): Observable<any> {
+        return this.http.get(this.pesajesLineaApiUrl + "/countErrorsByMonth/" + monthCount);
+    }
 
 }

@@ -1,0 +1,8 @@
+node_modules
+dist
+.angular
+.editorconfig
+CHANGELOG.md
+LICENSE.md
+package-lock.json
+README.md

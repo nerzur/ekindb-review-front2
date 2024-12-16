@@ -88,7 +88,9 @@
         "resourceNotAvailableMessage" : "El recurso solicitado no está disponible actualmente.",
         "bufferVaciado" : "Buffer de Vaciado",
         "bufferLlenado" : "Buffer de Llenado",
-        "id" : "Id"
+        "id" : "Id",
+        "countOfErrorsByMonth": "Cantidad de errores detectados mensual (mensual)",
+        "errorsDetected": "Cantidad de errores"
     },
     "primeng": {
         "accept": "Sí",

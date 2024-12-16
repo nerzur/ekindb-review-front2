@@ -88,7 +88,9 @@
         "resourceNotAvailableMessage": "La ressource demandée n'est actuellement pas disponible.",
         "bufferVaciado": "Tampon de Vidange",
         "bufferLlenado": "Tampon de Remplissage",
-        "id": "Id"
+        "id": "Id",
+        "countOfErrorsByMonth": "Nombre d'erreurs détectées mensuellement",
+        "errorsDetected": "Nombre d'erreurs"
     },
     "primeng": {
         "accept": "Oui",
